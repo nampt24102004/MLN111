@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#842b35">
+  <title>Lật hình bí mật · Mini game 1</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="questions.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><span class="flag" aria-hidden="true">★</span><span>TRIẾT HỌC MÁC – LÊNIN</span></div>
+      <div class="top-actions"><a class="text-button" style="text-decoration:none" href="../../index.html">← Home</a><button id="reveal-all" class="text-button">Lật toàn bộ</button><button id="reset" class="text-button">↻ Chơi lại</button></div>
+    </header>
+    <section class="intro"><p class="eyebrow">9 CÂU HỎI · 9 MẢNH GHÉP · 1 SỰ KIỆN</p><h1>LẬT HÌNH <span>BÍ MẬT</span></h1><p class="subtitle">TỒN TẠI XÃ HỘI – Ý THỨC XÃ HỘI<br>VÀ TINH THẦN YÊU NƯỚC VIỆT NAM</p></section>
+    <div class="game-layout">
+      <section class="picture-panel" aria-label="Bức ảnh bí mật">
+        <div class="panel-heading"><h2><span class="step">01</span> Những mảnh ghép lịch sử</h2><span id="progress" class="progress">0 / 9 mảnh đã mở</span></div>
+        <div class="picture-stage" id="picture-stage">
+        <div class="picture-frame" id="picture-frame">
+          <div class="missing-image" id="missing-image" hidden><strong>Chưa có ảnh bí mật</strong><span>Đặt ảnh vào<br><code>images/independence-day.png</code><br>rồi mở lại trang.</span></div>
+          <img id="secret-image" src="images/independence-day.png" alt="Bức ảnh bí mật được che bởi chín mảnh" draggable="false">
+          <div class="tiles" id="tiles" aria-label="Chín mảnh che bức ảnh"></div>
+        </div>
+        </div>
+        <p id="image-warning" class="image-warning" hidden>Chưa tìm thấy ảnh. Đặt ảnh bạn gửi vào <code>images/independence-day.png</code>.</p>
+      </section>
+      <section class="guess-card" id="guess-panel" aria-label="Đoán bức ảnh">
+        <div><p class="eyebrow">KẾT NỐI NHỮNG MẢNH GHÉP</p><h3>Gợi ý: Một sự kiện lịch sử.</h3></div><button id="guess" class="primary">Đoán bức ảnh <span aria-hidden="true">→</span></button>
+      </section>
+      <section class="result-panel" id="result-panel" aria-label="Kết quả" hidden>
+        <span class="result-star" aria-hidden="true">★</span><p class="eyebrow">CHÍNH XÁC!</p><h2>SỰ KIỆN NGÀY<br><span>2/9/1945</span></h2><p class="result-description">Chủ tịch Hồ Chí Minh đọc Tuyên ngôn Độc lập tại Quảng trường Ba Đình.</p><p class="result-message">Khai sinh nước Việt Nam Dân chủ Cộng hòa.</p><button class="primary" id="result-reset">Chơi lại</button>
+      </section>
+    </div>
+    <footer><span>CÙNG HỌC · CÙNG KHÁM PHÁ</span><span><kbd>Space</kbd> bắt đầu / dừng · <kbd>Enter</kbd> kiểm tra · <kbd>Esc</kbd> đóng câu hỏi</span></footer>
+  </main>
+
+  <dialog id="question-dialog" class="question-dialog" aria-labelledby="question-label" tabindex="-1">
+    <div class="dialog-heading"><span id="question-label" class="question-label">CÂU 1</span><button class="close-button" data-close="question-dialog" aria-label="Đóng câu hỏi">×</button></div>
+    <div class="question-header"><h2 id="question-text"></h2><div id="timer" class="timer"><span id="timer-number" role="timer" aria-label="Còn 15 giây">15</span><small id="timer-status">GIÂY</small></div></div>
+    <div id="options" class="options"></div>
+    <p id="attempt-status" class="attempt-status" aria-live="polite">Lượt trả lời 1 / 2</p>
+    <div id="answer-feedback" class="answer-feedback" role="status"></div>
+    <section id="answer-explanation" class="answer-explanation" aria-labelledby="explanation-heading" hidden>
+      <h3 id="explanation-heading">Vì sao đáp án này đúng?</h3>
+      <p id="explanation-text"></p>
+      <p id="explanation-note" class="explanation-note" hidden></p>
+    </section>
+    <div class="question-actions"><button id="start-timer" class="primary">▶ Bắt đầu</button><button id="check-answer" class="secondary" disabled>Kiểm tra đáp án</button><button id="next-attempt" class="primary" hidden>Đội khác trả lời · Lượt 2</button><button id="flip-piece" class="primary" hidden>Lật mảnh →</button><button id="close-question" class="secondary" hidden>Đóng câu hỏi</button></div>
+    <p class="dialog-hint"><kbd>Space</kbd> bắt đầu / tạm dừng · <kbd>Enter</kbd> kiểm tra lựa chọn · <kbd>Esc</kbd> quay lại</p>
+  </dialog>
+  <dialog id="guess-dialog" class="small-dialog" aria-labelledby="guess-title" tabindex="-1"><div class="dialog-heading"><span class="eyebrow">GIẢI MÃ BỨC ẢNH</span><button class="close-button" data-close="guess-dialog" aria-label="Đóng">×</button></div><h2 id="guess-title">Bức ảnh bí mật nói về sự kiện gì?</h2><div class="modal-actions"><button id="guess-wrong" class="secondary">Chưa chính xác</button><button id="guess-correct" class="primary">Chính xác</button></div></dialog>
+  <dialog id="confirm-dialog" class="small-dialog" aria-labelledby="confirm-title" tabindex="-1"><div class="dialog-heading"><span class="eyebrow">XÁC NHẬN THAO TÁC</span><button class="close-button" data-close="confirm-dialog" aria-label="Đóng">×</button></div><h2 id="confirm-title"></h2><p id="confirm-description"></p><div class="modal-actions"><button class="secondary" data-close="confirm-dialog">Hủy</button><button id="confirm-action" class="primary">Xác nhận</button></div></dialog>
+</body>
+</html>
